@@ -15,6 +15,11 @@ pipeline {
                 bat 'mvn clean install'
             }
         }
+        state('compile') {
+            steps {
+                bat 'mvn compile'
+            }
+        }
         stage('Test') {
             steps {
                 bat 'mvn test'
@@ -26,6 +31,16 @@ pipeline {
                     // Generate JaCoCo code coverage report
                     jacoco(execPattern: '**/target/jacoco.exec')
                 }
+            }
+        }
+        stage('verify') {
+            steps {
+                bat 'mvn verify'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                bat 'mvn deploy'
             }
         }
     }
