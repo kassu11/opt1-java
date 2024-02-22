@@ -38,10 +38,5 @@ pipeline {
                 bat 'mvn verify'
             }
         }
-        stage('Deploy') {
-            steps {
-                bat 'mvn deploy'
-            }
-        }
     }
 }
