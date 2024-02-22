@@ -15,7 +15,7 @@ pipeline {
                 bat 'mvn clean install'
             }
         }
-        state('compile') {
+        stage('compile') {
             steps {
                 bat 'mvn compile'
             }
