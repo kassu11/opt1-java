@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Define Docker Hub credentials ID
-        DOCKERHUB_CREDENTIALS_ID = 'kassu11'
+        DOCKERHUB_CREDENTIALS_ID = 'docker-auth'
         // Define Docker Hub repository name
         DOCKERHUB_REPO = 'kassu11/fartocel'
         // Define Docker image tag
