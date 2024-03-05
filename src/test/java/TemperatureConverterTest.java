@@ -15,4 +15,10 @@ class TemperatureConverterTest {
         assertEquals(0, TemperatureConverter.fartocel(32), "32 F = 0 C");
         assertEquals(0, TemperatureConverter.fartocel(32), "32 F = 0 C");
     }
+
+    @Test
+    void kelvinToFahrenheit() {
+        assertEquals(32, TemperatureConverter.kelvinToFahrenheit(273.15), "273.15 K = 32 F");
+        assertEquals(80.3, TemperatureConverter.kelvinToFahrenheit(300), .1, "300 K = 80.6 F");
+    }
 }
