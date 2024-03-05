@@ -1,41 +1,37 @@
 pipeline {
-    agent any
-    environment {
-        PATH = "${env.PATH};C:\\Windows\\System32" // Update the PATH to include the directory of cmd.exe
-    }
+    agent any // IN THE LECTURE I WILL EXPLAIN THE SCRIPT AND THE WORKFLOW
 
+    environment {
+        // Define Docker Hub credentials ID
+        DOCKERHUB_CREDENTIALS_ID = 'kassu11'
+        // Define Docker Hub repository name
+        DOCKERHUB_REPO = 'kassu11/fartocel'
+        // Define Docker image tag
+        DOCKER_IMAGE_TAG = 'latest'
+    }
     stages {
         stage('Checkout') {
             steps {
+                // Checkout code from Git repository
                 git branch: 'FarToCel', url: 'https://github.com/kassu11/opt1-java.git'
             }
         }
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                bat 'mvn clean install'
-            }
-        }
-        stage('compile') {
-            steps {
-                bat 'mvn compile'
-            }
-        }
-        stage('Test') {
-            steps {
-                bat 'mvn test'
-            }
-            post {
-                success {
-                    // Publish JUnit test results
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    // Generate JaCoCo code coverage report
-                    jacoco(execPattern: '**/target/jacoco.exec')
+                // Build Docker image
+                script {
+                    docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
                 }
             }
         }
-        stage('verify') {
+        stage('Push Docker Image to Docker Hub') {
             steps {
-                bat 'mvn verify'
+                // Push Docker image to Docker Hub
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
+                        docker.image("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}").push()
+                    }
+                }
             }
         }
     }
