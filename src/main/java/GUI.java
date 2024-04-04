@@ -12,8 +12,9 @@ import java.util.ResourceBundle;
 
 public class GUI extends Application {
     private Label nameText, lastNameText, emailText;
-    private Label text;
+    private Button save;
     Locale locale = new Locale("en", "UK");
+    private LocalizationDao localizationDao = new LocalizationDao();
 
     @Override
     public void start(Stage primaryStage) {
@@ -23,7 +24,6 @@ public class GUI extends Application {
         root.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
 
         Scene scene = new Scene(root, 300, 250);
-        text = new Label("Name");
         ComboBox<LanguageInfo> comboBox = new ComboBox<>();
         comboBox.getItems().addAll(new LanguageInfo("en", "UK", "English"), new LanguageInfo("fa", "IR", "Persian"), new LanguageInfo("ja", "JP", "Japanese"));
         comboBox.setValue(new LanguageInfo("en", "UK", "English"));
@@ -33,7 +33,13 @@ public class GUI extends Application {
         TextField textField = new TextField();
         TextField textField2 = new TextField();
         TextField textField3 = new TextField();
-        Button save = new Button("Save");
+        save = new Button("Save");
+
+        save.setOnAction(e -> {
+            System.out.println("Saved");
+            Localization localization = new Localization(textField.getText(), textField2.getText(), textField3.getText(), comboBox.getValue().getLanguage());
+            localizationDao.persist(localization);
+        });
 
         comboBox.setOnAction(e -> {
             LanguageInfo selected = comboBox.getValue();
@@ -50,7 +56,7 @@ public class GUI extends Application {
         root.add(textField, 1, 1);
         root.add(textField2, 1, 2);
         root.add(textField3, 1, 3);
-        root.add(save, 0, 4);
+        root.add(save, 1, 4);
 
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
@@ -60,9 +66,9 @@ public class GUI extends Application {
     private void updateTexts() {
         ResourceBundle r = ResourceBundle.getBundle("messages", locale);
 
-        nameText.setText(r.getString("button1"));
-        lastNameText.setText(r.getString("button2"));
-        emailText.setText(r.getString("button3"));
-        text.setText(r.getString("name"));
+        nameText.setText(r.getString("firstName"));
+        lastNameText.setText(r.getString("lastName"));
+        emailText.setText(r.getString("email"));
+        save.setText(r.getString("save"));
     }
 }
