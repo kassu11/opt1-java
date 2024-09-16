@@ -4,6 +4,7 @@ import dao.StudentDAO;
 import entities.Exam;
 import entities.Student;
 
+import java.util.Date;
 import java.util.List;
 
 public class Main {
@@ -20,9 +21,9 @@ public class Main {
         studentDAO.saveStudent(jane);
 
         // Add exams for students
-        examDAO.saveExam(new Exam(john, 4));
-        examDAO.saveExam(new Exam(john, 5));
-        examDAO.saveExam(new Exam(jane, 3));
+        examDAO.saveExam(new Exam(john, 4, new Date()));
+        examDAO.saveExam(new Exam(john, 5, new Date()));
+        examDAO.saveExam(new Exam(jane, 3, new Date()));
 
         // Retrieve and display all students and their exam grades
         List<Student> students = studentDAO.getAllStudents();

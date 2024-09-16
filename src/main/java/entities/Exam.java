@@ -3,6 +3,8 @@ package entities;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "exams")
 public class Exam {
@@ -18,11 +20,16 @@ public class Exam {
     @Column(name = "grade", nullable = false)
     private int grade; // Grades will be on a scale of 1-5
 
+    @Column(name = "date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date date;
+
     public Exam() {}
 
-    public Exam(Student student, int grade) {
+    public Exam(Student student, int grade, Date date) {
         this.student = student;
         this.grade = grade;
+        this.date = date;
     }
 
     public Long getId() {
@@ -47,5 +54,13 @@ public class Exam {
 
     public void setGrade(int grade) {
         this.grade = grade;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
