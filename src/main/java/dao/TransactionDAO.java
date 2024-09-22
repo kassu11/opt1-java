@@ -16,4 +16,16 @@ public class TransactionDAO {
         em.getTransaction().commit();
         em.close();
     }
+
+    public Transaction getTransaction(int transactionId) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        Transaction transaction = em.find(Transaction.class, transactionId);
+
+        em.getTransaction().commit();
+        em.close();
+
+        return transaction;
+    }
 }
